@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-21 18:29+0300\n"
+"POT-Creation-Date: 2022-04-21 18:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,7 +33,7 @@ msgid "facilities"
 msgstr "предприятия"
 
 #: templates/account/login.html:8 templates/account/login.html:17
-#: templates/account/login.html:44 templates/common/base.html:44
+#: templates/account/login.html:44 templates/common/base.html:47
 msgid "Sign In"
 msgstr ""
 
@@ -64,7 +64,7 @@ msgid "Forgot Password?"
 msgstr ""
 
 #: templates/account/logout.html:5 templates/account/logout.html:14
-#: templates/account/logout.html:19 templates/common/base.html:39
+#: templates/account/logout.html:19 templates/common/base.html:42
 msgid "Sign Out"
 msgstr ""
 
@@ -77,7 +77,7 @@ msgid "Signup"
 msgstr ""
 
 #: templates/account/signup.html:16 templates/account/signup.html:22
-#: templates/common/base.html:47
+#: templates/common/base.html:50
 msgid "Sign Up"
 msgstr ""
 
@@ -91,6 +91,10 @@ msgstr ""
 msgid "Map"
 msgstr "Карта"
 
-#: templates/common/base.html:38
+#: templates/common/base.html:39
+msgid "Admin page"
+msgstr "Админка"
+
+#: templates/common/base.html:41
 msgid "Change E-mail"
 msgstr "Сменить E-mail"

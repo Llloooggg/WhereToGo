@@ -35,6 +35,9 @@
                         {{ user.username }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                        {% if user.is_superuser %}
+                            <li><a class="dropdown-item" href="{% url 'admin:index' %}">{% trans "Admin page" %}</a></li>
+                        {% endif %}
                         <li><a class="dropdown-item" href="{% url 'account_email' %}">{% trans "Change E-mail" %}</a></li>
                         <li><a class="dropdown-item" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a></li>
                     </ul>
