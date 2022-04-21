@@ -4,7 +4,7 @@ const osm = L.tileLayer(url, { attribution: copy });
 const map = L.map("map", { layers: [osm], minZoom: 5 });
 map.
     locate()
-    .on("locationfound", (e) => map.setView(e.latlng, 8))
+    .on("locationfound", (e) => map.setView(e.latlng, 12))
     .on("locationerror", () => map.setView([0, 0], 5));
 
 async function loadFacilities() {

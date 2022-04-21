@@ -1,10 +1,10 @@
 html,
 body {
     height: 100%;
-    margin: 0;
 }
 
 #map {
-    height: 100%;
-    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    height: 93%;
+    width: 70%;
 }
