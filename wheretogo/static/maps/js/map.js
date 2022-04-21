@@ -27,20 +27,39 @@ map.on("moveend", renderFacilities);
 map.on("click", function (e) {
     const { lat, lng } = e.latlng;
 
-    const api = `https://nominatim.openstreetmap.org/reverse.php?lat=${lat}&lon=${lng}&zoom=18&format=jsonv2`;
+    const get_addr_api = `https://nominatim.openstreetmap.org/reverse.php?lat=${lat}&lon=${lng}&zoom=18&format=jsonv2`;
 
-    fetchAddressData(api).then((data) => {
+
+    fetchAddressData(get_addr_api).then((data) => {
         const { country, state, city, house_number, road } = data.address;
         console.log(country + ', ' + state + ', ' + city + ', ' + road + ', ' + house_number);
-    });
-});
 
-async function fetchAddressData(url) {
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        return data;
-    } catch (err) {
-        console.error(err);
+        const get_long_api = `https://nominatim.openstreetmap.org/search.php?q=${road + ' ' + house_number + ' ' + city}&format=jsonv2&limit=1&addressdetails=1`;
+
+        fetchLatLonData(get_long_api).then((data) => {
+            const { country, state, city, house_number, road } = data[0].address;
+            console.log(country + ', ' + state + ', ' + city + ', ' + road + ', ' + house_number);
+        });
+
+    });
+
+    async function fetchAddressData(url) {
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            return data;
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    async function fetchLatLonData(url) {
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            return data;
+        } catch (err) {
+            console.error(err);
+        }
     }
-}
+})
