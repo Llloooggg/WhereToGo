@@ -7,6 +7,7 @@ map.
     .on("locationfound", (e) => map.setView(e.latlng, 12))
     .on("locationerror", () => map.setView([0, 0], 5));
 
+
 async function loadFacilities() {
     const facilities_url = `/api/facilities/?in_bbox=${map.getBounds().toBBoxString()}`
     const response = await fetch(facilities_url)
@@ -16,30 +17,51 @@ async function loadFacilities() {
 
 async function renderFacilities() {
     const facilities = await loadFacilities();
-    L.geoJSON(facilities)
-        .bindPopup((layer) => layer.feature.properties.name)
-        .addTo(map);
+    L.geoJSON(facilities, {
+        onEachFeature: function (feature) {
+
+            var facilityMarkerStyle = L.Icon.extend({
+                options: {
+                    iconSize: [20, 20],
+                }
+            });
+
+            var facilityMarker = new facilityMarkerStyle({ iconUrl: document.getElementById("facilityMarkerURL").innerHTML });
+
+            var lat = feature.geometry.coordinates[1];
+            var lon = feature.geometry.coordinates[0];
+
+            L.marker([lat, lon], { icon: facilityMarker }).bindPopup(feature.properties.name).addTo(map);
+        }
+    });
 }
 
 map.on("moveend", renderFacilities);
 
+
+var clickMarker;
 
 map.on("click", function (e) {
     const { lat, lng } = e.latlng;
 
     const get_addr_api = `https://nominatim.openstreetmap.org/reverse.php?lat=${lat}&lon=${lng}&zoom=18&format=jsonv2`;
 
-
     fetchAddressData(get_addr_api).then((data) => {
-        const { country, state, city, house_number, road } = data.address;
-        console.log(country + ', ' + state + ', ' + city + ', ' + road + ', ' + house_number);
+        var { city, house_number, road } = data.address;
 
-        const get_long_api = `https://nominatim.openstreetmap.org/search.php?q=${road + ' ' + house_number + ' ' + city}&format=jsonv2&limit=1&addressdetails=1`;
+        if (clickMarker != undefined) {
+            map.removeLayer(clickMarker);
+        };
 
-        fetchLatLonData(get_long_api).then((data) => {
-            const { country, state, city, house_number, road } = data[0].address;
-            console.log(country + ', ' + state + ', ' + city + ', ' + road + ', ' + house_number);
-        });
+        clickMarker = L.marker([data.lat, data.lon],).addTo(map);
+
+        var popupText = '<p>' + city + ', ' + road
+        if (house_number) {
+            popupText += ', ' + house_number
+        }
+        popupText += '</p>'
+
+        clickMarker.bindPopup(popupText).openPopup();
 
     });
 
@@ -52,14 +74,4 @@ map.on("click", function (e) {
             console.error(err);
         }
     };
-
-    async function fetchLatLonData(url) {
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-            return data;
-        } catch (err) {
-            console.error(err);
-        }
-    }
 })
