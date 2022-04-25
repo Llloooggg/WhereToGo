@@ -15,8 +15,20 @@ crossorigin=""></script>
 {% endblock %}
 
 {% block content %}
-<div id="map"></div>
-<span id="facilityMarkerURL" style="display: hidden;">{% static "maps/img/place.png" %}</span>
+<div class="container-fluid m-0 p-0">
+    <div class="row">
+        <div class="col-9 p-0">
+            <div id="map"></div>
+        </div>
+        <div class="col-3 p-0">
+            <div class="panel">
+                <button>Тест</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+<span id="facilityMarkerURL" style="display: none;">{% static "maps/img/place.png" %}</span>
 {% endblock %}
 
 {% block scripts %}
